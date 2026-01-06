@@ -10,9 +10,22 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::orderByDesc('id')->get();
+        $search = $request->input('search');
+        $status = $request->input('status');
+        $allowedStatuses = ['dikemas', 'dalam perjalanan', 'sampai'];
+
+        $orders = Order::where('nim_penjual', $request->user()->nim)
+            ->when($search, function ($query) use ($search) {
+                $query->where('product_name', 'like', "%{$search}%");
+            })
+            ->when($status && in_array($status, $allowedStatuses, true), function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->orderByDesc('id')
+            ->get();
+
         return view('seller.orders.index', compact('orders'));
     }
 
@@ -35,6 +48,8 @@ class OrderController extends Controller
             'status' => ['required', 'in:dikemas,dalam perjalanan,sampai'],
         ]);
 
+        $data['nim_penjual'] = $request->user()->nim;
+
         Order::create($data);
 
         return redirect()->route('seller.orders.index')->with('success', 'Pesanan berhasil ditambahkan.');
@@ -43,15 +58,17 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Order $order)
+    public function edit(Request $request, $id)
     {
+        $order = Order::where('nim_penjual', $request->user()->nim)->findOrFail($id);
+
         return view('seller.orders.edit', compact('order'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, $id)
     {
         $data = $request->validate([
             'product_name' => ['required', 'string', 'max:255'],
@@ -59,6 +76,7 @@ class OrderController extends Controller
             'status' => ['required', 'in:dikemas,dalam perjalanan,sampai'],
         ]);
 
+        $order = Order::where('nim_penjual', $request->user()->nim)->findOrFail($id);
         $order->update($data);
 
         return redirect()->route('seller.orders.index')->with('success', 'Pesanan berhasil diperbarui.');
@@ -67,8 +85,9 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy(Request $request, $id)
     {
+        $order = Order::where('nim_penjual', $request->user()->nim)->findOrFail($id);
         $order->delete();
 
         return redirect()->route('seller.orders.index')->with('success', 'Pesanan berhasil dihapus.');

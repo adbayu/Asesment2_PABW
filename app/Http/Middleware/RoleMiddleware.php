@@ -15,7 +15,21 @@ class RoleMiddleware
     {
         $user = $request->user();
 
-        if (! $user || (! empty($roles) && ! in_array($user->role, $roles, true))) {
+        if (! $user) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Unauthenticated.'], 401);
+            }
+
+            return redirect()->route('login')->withErrors([
+                'auth' => 'Anda tidak memiliki akses ke halaman ini.',
+            ]);
+        }
+
+        if (! empty($roles) && ! in_array($user->role, $roles, true)) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Forbidden.'], 403);
+            }
+
             return redirect()->route('login')->withErrors([
                 'auth' => 'Anda tidak memiliki akses ke halaman ini.',
             ]);

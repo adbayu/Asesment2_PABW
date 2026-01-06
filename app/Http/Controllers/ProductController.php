@@ -9,12 +9,14 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-
         //$products = Product::query()
         //->when()
         //->get();
+        $condition = $request->input('condition');
+        $allowedConditions = ['baru', 'bekas'];
 
         $products = Product::query()
+            ->where('nim_penjual', $request->user()->nim)
             ->when($request->filled('search'), function ($query) use ($request) {
                 $searchTerm = $request->input('search');
 
@@ -22,6 +24,9 @@ class ProductController extends Controller
                     $subQuery->where('name', 'like', "%{$searchTerm}%")
                         ->orWhere('description', 'like', "%{$searchTerm}%");
                 });
+            })
+            ->when($condition && in_array($condition, $allowedConditions, true), function ($query) use ($condition) {
+                $query->where('condition', $condition);
             })
             ->orderByDesc('id')
             ->get();
@@ -48,19 +53,23 @@ class ProductController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
+        $data['nim_penjual'] = $request->user()->nim;
+
         Product::create($data);
 
         return redirect()->route('seller.products.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
     
-    public function edit(Product $product)
+    public function edit(Request $request, $id)
     {
+        $product = Product::where('nim_penjual', $request->user()->nim)->findOrFail($id);
+
         return view('seller.products.edit', compact('product'));
     }
 
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -69,6 +78,7 @@ class ProductController extends Controller
             'description' => ['nullable', 'string'],
         ]);
 
+        $product = Product::where('nim_penjual', $request->user()->nim)->findOrFail($id);
         $product->update($data);
 
         return redirect()->route('seller.products.index')->with('success', 'Produk berhasil diperbarui.');
@@ -77,8 +87,9 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request, $id)
     {
+        $product = Product::where('nim_penjual', $request->user()->nim)->findOrFail($id);
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Produk berhasil dihapus.');

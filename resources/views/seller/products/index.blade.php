@@ -9,14 +9,14 @@
     <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700" rel="stylesheet" />
     <style>
     :root {
-        --primary: #9F1521;
-        --primary-soft: #c22632;
-        --bg: #f9fafb;
+        --primary: #d81b32;
+        --primary-soft: #fde8ea;
+        --bg: #f6f7fb;
         --card: #ffffff;
-        --text: #1f2937;
-        --muted: #6b7280;
-        --border: #e5e7eb;
-        --radius: 14px;
+        --text: #0f172a;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --radius: 16px;
     }
 
     * {
@@ -28,79 +28,220 @@
     body {
         min-height: 100vh;
         font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-        background: var(--bg);
         color: var(--text);
-        padding: 28px;
+        background:
+            radial-gradient(circle at top left, #fff1f2 0%, rgba(255, 241, 242, 0) 45%),
+            radial-gradient(circle at 20% 20%, #eef2ff 0%, rgba(238, 242, 255, 0) 40%),
+            var(--bg);
     }
 
-    .shell {
-        width: min(1080px, 100%);
-        margin: 0 auto;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
-        padding: 24px;
+    .app {
         display: grid;
-        gap: 16px;
+        grid-template-columns: 260px 1fr;
+        min-height: 100vh;
     }
 
-    .header {
+    .sidebar {
+        background: var(--card);
+        border-right: 1px solid var(--border);
+        padding: 28px 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .brand .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+    }
+
+    .brand h2 {
+        margin-top: 8px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .nav {
+        display: grid;
+        gap: 8px;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 160ms ease;
+    }
+
+    .nav-item svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .nav-item:hover {
+        background: #f1f5f9;
+        color: var(--text);
+    }
+
+    .nav-item.is-active {
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .topbar {
+        padding: 28px 32px;
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
+        gap: 20px;
     }
 
-    .title {
-        font-size: 24px;
-        letter-spacing: -0.01em;
+    .topbar h1 {
+        font-size: 22px;
+        margin-bottom: 4px;
     }
 
     .muted {
         color: var(--muted);
+        font-size: 14px;
     }
 
-    .btn {
+    .logout {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        padding: 11px 14px;
-        border-radius: 10px;
-        border: 1px solid transparent;
-        font-weight: 700;
-        text-decoration: none;
-        cursor: pointer;
-        color: #fff;
-        background: var(--primary);
-        transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
-    }
-
-    .btn:hover {
-        background: var(--primary-soft);
-        transform: translateY(-1px);
-        box-shadow: 0 12px 30px rgba(159, 21, 33, 0.18);
-    }
-
-    .btn.secondary {
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
         background: #ffffff;
-        color: var(--primary);
-        border-color: var(--border);
-        box-shadow: none;
+        color: var(--text);
+        font-weight: 600;
+        cursor: pointer;
+        transition: border 160ms ease, box-shadow 160ms ease;
     }
 
-    .btn.secondary:hover {
+    .logout:hover {
         border-color: var(--primary);
-        color: var(--primary-soft);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .page {
+        padding: 32px;
+        display: grid;
+        gap: 20px;
     }
 
     .alert {
-        padding: 12px 14px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: #f8fafc;
+        color: var(--text);
+    }
+
+    .page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+    }
+
+    .stat-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: 0 18px 30px rgba(15, 23, 42, 0.05);
+    }
+
+    .stat-card p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 6px;
+    }
+
+    .stat-card strong {
+        font-size: 22px;
+    }
+
+    .filters {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 12px;
+        display: grid;
+        grid-template-columns: 1fr 200px auto;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .filters input,
+    .filters select {
+        width: 100%;
+        padding: 10px 12px;
         border-radius: 10px;
         border: 1px solid var(--border);
-        background: #f3f4f6;
-        color: var(--text);
+        font-family: inherit;
+    }
+
+    .filters .search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+    }
+
+    .filters .search input {
+        border: none;
+        padding: 10px 0;
+        outline: none;
+    }
+
+    .table-wrap {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
     }
 
     table {
@@ -110,141 +251,486 @@
 
     th,
     td {
-        padding: 12px 10px;
+        padding: 14px 16px;
         text-align: left;
         border-bottom: 1px solid var(--border);
+        font-size: 14px;
     }
 
     th {
         background: #f8fafc;
         font-weight: 600;
-        font-size: 14px;
+        color: #475569;
     }
 
-    td {
-        font-size: 14px;
-        color: var(--text);
-    }
-
-    .actions {
+    .product-cell {
         display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .product-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: #f1f5f9;
+        color: #475569;
+        display: grid;
+        place-items: center;
+        font-weight: 600;
     }
 
     .badge {
         display: inline-flex;
         align-items: center;
-        padding: 6px 10px;
+        padding: 6px 12px;
         border-radius: 999px;
-        border: 1px solid var(--border);
-        color: var(--muted);
         font-size: 12px;
+        font-weight: 600;
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .badge-new {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .badge-used {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+    .actions {
+        display: inline-flex;
+        gap: 8px;
+    }
+
+    .action-btn {
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        color: var(--text);
+    }
+
+    .action-danger {
+        border-color: #fecaca;
+        color: #b91c1c;
+    }
+
+    .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: rgba(15, 23, 42, 0.45);
+        z-index: 50;
+    }
+
+    .modal.is-open {
+        display: flex;
+    }
+
+    .modal-panel {
+        width: min(520px, 100%);
+        background: var(--card);
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+        padding: 20px;
+        display: grid;
+        gap: 16px;
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+
+    .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .modal-close {
+        border: 1px solid var(--border);
+        background: #fff;
+        border-radius: 10px;
+        padding: 6px 10px;
+        cursor: pointer;
+    }
+
+    .form-grid {
+        display: grid;
+        gap: 12px;
+    }
+
+    .form-grid label {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .form-grid input,
+    .form-grid select,
+    .form-grid textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        font-family: inherit;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .button.ghost {
+        background: #fff;
+        border-color: var(--border);
+        color: var(--text);
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .page > * {
+        animation: fadeUp 0.4s ease both;
+    }
+
+    .stat-card:nth-child(2) {
+        animation-delay: 0.05s;
+    }
+
+    .stat-card:nth-child(3) {
+        animation-delay: 0.1s;
+    }
+
+    .stat-card:nth-child(4) {
+        animation-delay: 0.15s;
     }
 
     form {
         margin: 0;
     }
 
-    /* .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+    @media (max-width: 1080px) {
+        .filters {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .app {
+            grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+            flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px;
-            background: #f8fafc;
+            padding: 18px 22px;
         }
-        .filters label {
-            font-weight: 600;
-            font-size: 14px;
-        }
-        .filter-actions {
-            display: flex;
+
+        .nav {
+            grid-auto-flow: column;
             gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
         }
-        select {
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: #ffffff;
-            font-size: 14px;
-        } */
+    }
+
+    @media (max-width: 640px) {
+        .topbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .page {
+            padding: 22px;
+        }
+
+        .sidebar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .nav {
+            grid-auto-flow: row;
+            width: 100%;
+        }
+    }
     </style>
 </head>
 
 <body>
-    <div class="shell">
-        <div class="header">
-            <div>	
-                <h1 class="title">Kelola Produk</h1>
-                <p class="muted">Tambah, ubah, dan hapus data produk.</p>
+    @php
+    $totalProducts = $products->count();
+    $newProducts = $products->where('condition', 'baru')->count();
+    $usedProducts = $products->where('condition', 'bekas')->count();
+    $averagePrice = $totalProducts ? round($products->avg('price')) : 0;
+    @endphp
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="eyebrow">Seller</div>
+                <h2>Toko Anda</h2>
             </div>
-            <div class="actions">
-                <a class="btn secondary" href="{{ route('seller.dashboard') }}">&larr; Kembali</a>
-                <a class="btn" href="{{ route('seller.products.create') }}">+ Tambah Produk</a>
-            </div>
-        </div>
+            <nav class="nav">
+                <a class="nav-item" href="{{ route('seller.dashboard') }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a class="nav-item" href="{{ route('seller.orders.index') }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <rect x="3" y="4" width="18" height="16" rx="2" />
+                        <path d="M7 8h10M7 12h10M7 16h6" />
+                    </svg>
+                    Pesanan
+                </a>
+                <a class="nav-item is-active" href="{{ route('seller.products.index') }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M12 2l9 5-9 5-9-5 9-5z" />
+                        <path d="M3 7v10l9 5 9-5V7" />
+                    </svg>
+                    Produk
+                </a>
+            </nav>
+        </aside>
 
-        @if (session('success'))
-        <div class="alert">{{ session('success') }}</div>
-        @endif
+        <main class="content">
+            <header class="topbar">
+                <div>
+                    <h1>Kelola Produk</h1>
+                    <p class="muted">Tambah, ubah, atau hapus produk yang dijual.</p>
+                </div>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="logout">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="18"
+                            height="18">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                            <path d="M10 17l5-5-5-5" />
+                            <path d="M15 12H3" />
+                        </svg>
+                        Logout
+                    </button>
+                </form>
+            </header>
 
-        <form method="GET" action="{{ route('seller.products.search') }}">
-            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                <input type="text" id="search" name="search" placeholder="Cari produk..." value="{{ request('search') }}"
-                    required
-                    style="padding:10px 12px; border-radius:10px; border:1px solid var(--border); min-width:220px;">
-                <button type="submit" class="btn">Cari</button>
-                @if (request('search'))
-                <a class="btn secondary" href="{{ route('seller.products.index') }}">Reset</a>
+            <section class="page">
+                <div class="page-header">
+                    <div>
+                        <h2>Kelola Produk</h2>
+                        <p class="muted">Perbarui daftar produk dan pantau performa.</p>
+                    </div>
+                    <a class="button" href="{{ route('seller.products.create') }}">Tambah Produk</a>
+                </div>
+
+                @if (session('success'))
+                <div class="alert">{{ session('success') }}</div>
                 @endif
-            </div>
-        </form>
 
-        <div style="overflow-x:auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nama Produk</th>
-                        <th>Harga</th>
-                        <th>Kondisi</th>
-                        <th>Deskripsi</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($products as $product)
-                    <tr>
-                        <td>{{ $product->name }}</td>
-                        <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                        <td><span class="badge">{{ ucfirst($product->condition) }}</span></td>
-                        <td>{{ \Illuminate\Support\Str::limit($product->description, 60) }}</td>
-                        <td>
-                            <div class="actions">
-                                <a class="btn secondary" href="{{ route('seller.products.edit', $product) }}">Edit</a>
-                                <form method="POST" action="{{ route('seller.products.destroy', $product) }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn"
-                                        onclick="return confirm('Hapus produk ini?')">Hapus</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="muted">Belum ada produk.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                <div class="stats">
+                    <div class="stat-card">
+                        <p>Total Produk</p>
+                        <strong>{{ $totalProducts }}</strong>
+                    </div>
+                    <div class="stat-card">
+                        <p>Produk Baru</p>
+                        <strong>{{ $newProducts }}</strong>
+                    </div>
+                    <div class="stat-card">
+                        <p>Produk Bekas</p>
+                        <strong>{{ $usedProducts }}</strong>
+                    </div>
+                    <div class="stat-card">
+                        <p>Rata-rata Harga</p>
+                        <strong>Rp {{ number_format($averagePrice, 0, ',', '.') }}</strong>
+                    </div>
+                </div>
+
+                <form class="filters" method="GET" action="{{ route('seller.products.search') }}">
+                    <div class="search">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="18"
+                            height="18">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M21 21l-4.35-4.35" />
+                        </svg>
+                        <input type="text" name="search" placeholder="Cari produk..." value="{{ request('search') }}">
+                    </div>
+                    <select name="condition">
+                        <option value="">Semua Kondisi</option>
+                        <option value="baru" @selected(request('condition') === 'baru')>Baru</option>
+                        <option value="bekas" @selected(request('condition') === 'bekas')>Bekas</option>
+                    </select>
+                    <button class="button" type="submit">Filter</button>
+                </form>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Harga</th>
+                                <th>Kondisi</th>
+                                <th>Deskripsi</th>
+                                <th>Tanggal</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($products as $product)
+                            @php
+                            $initial = strtoupper(substr((string) $product->name, 0, 1));
+                            $conditionClass = $product->condition === 'baru' ? 'badge-new' : 'badge-used';
+                            @endphp
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-icon">{{ $initial }}</div>
+                                        <div>
+                                            <div>{{ $product->name }}</div>
+                                            <div class="muted">ID #{{ $product->id }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                                <td><span class="badge {{ $conditionClass }}">{{ ucfirst($product->condition) }}</span>
+                                </td>
+                                <td>{{ \Illuminate\Support\Str::limit($product->description, 60) }}</td>
+                                <td>{{ optional($product->created_at)->format('d M Y') }}</td>
+                                <td>
+                                    <div class="actions">
+                                        <button type="button" class="action-btn js-edit-product"
+                                            data-update-url="{{ route('seller.products.update', $product) }}"
+                                            data-name="{{ $product->name }}" data-price="{{ $product->price }}"
+                                            data-condition="{{ $product->condition }}"
+                                            data-description="{{ $product->description }}">Edit</button>
+                                        <form method="POST" action="{{ route('seller.products.destroy', $product) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="action-btn action-danger"
+                                                onclick="return confirm('Hapus produk ini?')">Hapus</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="6" class="muted">Belum ada produk.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="editProductModal" aria-hidden="true">
+        <div class="modal-panel" role="dialog" aria-modal="true">
+            <div class="modal-header">
+                <div class="modal-title">Edit Produk</div>
+                <button type="button" class="modal-close" data-close-modal="editProductModal">Tutup</button>
+            </div>
+            <form method="POST" id="editProductForm">
+                @csrf
+                @method('PUT')
+                <div class="form-grid">
+                    <div>
+                        <label for="edit-product-name">Nama Produk</label>
+                        <input id="edit-product-name" type="text" name="name" required>
+                    </div>
+                    <div>
+                        <label for="edit-product-price">Harga</label>
+                        <input id="edit-product-price" type="number" name="price" min="0" required>
+                    </div>
+                    <div>
+                        <label for="edit-product-condition">Kondisi</label>
+                        <select id="edit-product-condition" name="condition" required>
+                            <option value="baru">Baru</option>
+                            <option value="bekas">Bekas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="edit-product-description">Deskripsi</label>
+                        <textarea id="edit-product-description" name="description" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="button ghost" data-close-modal="editProductModal">Batal</button>
+                    <button type="submit" class="button">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
+
+    <script>
+    const productModal = document.getElementById('editProductModal');
+    const productForm = document.getElementById('editProductForm');
+    const productNameInput = document.getElementById('edit-product-name');
+    const productPriceInput = document.getElementById('edit-product-price');
+    const productConditionSelect = document.getElementById('edit-product-condition');
+    const productDescriptionInput = document.getElementById('edit-product-description');
+
+    const openModal = (modal) => {
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = (modal) => {
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+    };
+
+    document.querySelectorAll('.js-edit-product').forEach((button) => {
+        button.addEventListener('click', () => {
+            productForm.action = button.dataset.updateUrl;
+            productNameInput.value = button.dataset.name || '';
+            productPriceInput.value = button.dataset.price || '';
+            productConditionSelect.value = button.dataset.condition || 'baru';
+            productDescriptionInput.value = button.dataset.description || '';
+            openModal(productModal);
+        });
+    });
+
+    document.querySelectorAll('[data-close-modal="editProductModal"]').forEach((button) => {
+        button.addEventListener('click', () => closeModal(productModal));
+    });
+
+    productModal.addEventListener('click', (event) => {
+        if (event.target === productModal) {
+            closeModal(productModal);
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && productModal.classList.contains('is-open')) {
+            closeModal(productModal);
+        }
+    });
+    </script>
 </body>
 
 </html>
